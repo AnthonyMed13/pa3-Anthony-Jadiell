@@ -23,6 +23,7 @@ void ofApp::update(){
 			}else if(currentState->getNextState() == "over"){
 				gameOverState->setScore(gameState->getFinalScore());
 				currentState = gameOverState;
+				gameState = new GameState();
 			}
 			currentState->reset();
 		}
