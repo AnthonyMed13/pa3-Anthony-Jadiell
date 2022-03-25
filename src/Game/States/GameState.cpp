@@ -18,13 +18,31 @@ void GameState::tick() {
 		finalScore = map->getPlayer()->getScore();
 		map->getPlayer()->setScore(0);
 	}
+	if(map->getPlayer()->getDotsConsumed()==map->getDotCount()){
+		setFinished(true);
+		setNextState("win");
+		map->getPlayer()->setHealth(3);
+		finalScore = map->getPlayer()->getScore();
+		map->getPlayer()->setScore(0);
+	}
 }
 void GameState::render() {
 	map->render();
+	ofDrawBitmapString(to_string(map->getPlayer()->getDotsConsumed()) + "/" + to_string(map->getDotCount()), ofGetWidth()/2, ofGetHeight()/2-300, 50);
 }
 
 void GameState::keyPressed(int key){
 	map->keyPressed(key);
+		switch(key)
+	{
+		case 'y':
+		setFinished(true);
+		setNextState("win");
+		map->getPlayer()->setHealth(3);
+		finalScore = map->getPlayer()->getScore();
+		map->getPlayer()->setScore(0);
+		break;
+	}
 }
 
 void GameState::mousePressed(int x, int y, int button){

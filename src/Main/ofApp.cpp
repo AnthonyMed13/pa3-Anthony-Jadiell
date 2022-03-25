@@ -7,6 +7,7 @@ void ofApp::setup(){
 	menuState = new MenuState();
 	gameState = new GameState();
 	gameOverState = new GameOverState();
+	winState = new WinState();
 	// Initial State
 	currentState = menuState;
 }
@@ -23,6 +24,10 @@ void ofApp::update(){
 			}else if(currentState->getNextState() == "over"){
 				gameOverState->setScore(gameState->getFinalScore());
 				currentState = gameOverState;
+				gameState = new GameState();
+			}else if(currentState->getNextState() == "win"){
+				winState->setScore(gameState->getFinalScore());
+				currentState = winState;
 				gameState = new GameState();
 			}
 			currentState->reset();

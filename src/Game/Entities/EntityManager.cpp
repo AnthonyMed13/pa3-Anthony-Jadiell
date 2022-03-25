@@ -1,5 +1,7 @@
 #include "EntityManager.h"
 #include "Ghost.h"
+#include "Dot.h"
+#include "BigDot.h"
 void EntityManager::tick(){
     if(killable){
         killableCounter--;

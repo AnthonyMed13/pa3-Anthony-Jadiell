@@ -26,12 +26,14 @@ class Player: public Entity{
         Animation *walkLeft;
         Animation *walkRight;
         EntityManager* em;
+        int dotsConsumed=0;
 
     public:
         Player(int, int, int , int, EntityManager*);
         ~Player();
         int getHealth();
         int getScore();
+        int getDotsConsumed();
         FACING getFacing();
         void setHealth(int);
         void setScore(int);
@@ -45,4 +47,7 @@ class Player: public Entity{
         void reset();
         void checkCollisions();
         void die();
+        void setDotsConsumed(int);
+
+
 };
