@@ -1,4 +1,5 @@
 #include "ofApp.h"
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetFrameRate(30);
@@ -9,27 +10,32 @@ void ofApp::setup(){
 	gameOverState = new GameOverState();
 	// Initial State
 	currentState = menuState;
+	pauseState = new PauseState();
+	
+	
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	if (currentState != nullptr){
-		currentState->tick();
-		if(currentState->hasFinished()){
-			if(currentState->getNextState() == "Menu"){
-				currentState = menuState;
-			}else if(currentState->getNextState() == "Game"){
-				currentState = gameState;
-			}else if(currentState->getNextState() == "over"){
-				gameOverState->setScore(gameState->getFinalScore());
-				currentState = gameOverState;
-				gameState = new GameState();
+		if (currentState != nullptr){
+			currentState->tick();
+			if(currentState->hasFinished()){
+				if(currentState->getNextState() == "Menu"){
+					currentState = menuState;
+				}else if(currentState->getNextState() == "Game"){
+					currentState = gameState;
+				}else if(currentState->getNextState() == "over"){
+					gameOverState->setScore(gameState->getFinalScore());
+					currentState = gameOverState;
+					gameState = new GameState();
+				}else if (currentState->getNextState() == "Pause"){
+					currentState = pauseState;
+				}
+				currentState->reset();
 			}
-			currentState->reset();
 		}
+			
 	}
-		
-}
 
 //--------------------------------------------------------------
 void ofApp::draw(){
@@ -39,8 +45,10 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+
 	if (currentState != nullptr)
 		currentState->keyPressed(key);
+		//pauseState->keyPressed(key);
 
 }
 

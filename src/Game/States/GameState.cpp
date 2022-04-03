@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include "Entity.h"
+#include "PauseState.h"
 
 GameState::GameState() {
 	music.load("music/pacman_chomp.wav");
@@ -25,6 +26,13 @@ void GameState::render() {
 
 void GameState::keyPressed(int key){
 	map->keyPressed(key);
+	switch(key)
+	{
+		case 'p':
+			setFinished(true);
+			setNextState("Pause");
+			break;
+	}
 }
 
 void GameState::mousePressed(int x, int y, int button){
