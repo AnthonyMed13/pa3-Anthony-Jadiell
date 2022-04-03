@@ -35,6 +35,7 @@ void Map::addBoundBlock(BoundBlock* e){
 }
 void Map::addEntity(Entity* e){
 	entityManager->entities.push_back(e);
+	setDotCount(getDotCount()+1);
 }
 void Map::setPlayer(Player* p){
     player = p;
@@ -52,3 +53,6 @@ Map::~Map(){
 	delete entityManager;
 	delete gs;
 }
+
+int Map::getDotCount(){return dotCount;}
+void Map::setDotCount(int count){dotCount = count;}

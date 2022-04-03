@@ -17,9 +17,12 @@ class Map{
       void keyPressed(int key);
 		  void mousePressed(int x, int y, int button);
 		  void keyReleased(int key);
+      int getDotCount();
+      void setDotCount(int);
 
     private:
       EntityManager *entityManager;
       Player *player;
       GhostSpawner* gs;
+      int dotCount=0;
 };

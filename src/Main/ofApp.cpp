@@ -8,6 +8,7 @@ void ofApp::setup(){
 	menuState = new MenuState();
 	gameState = new GameState();
 	gameOverState = new GameOverState();
+	winState = new WinState();
 	// Initial State
 	currentState = menuState;
 	pauseState = new PauseState();
@@ -30,6 +31,11 @@ void ofApp::update(){
 					gameState = new GameState();
 				}else if (currentState->getNextState() == "Pause"){
 					currentState = pauseState;
+				}
+				else if(currentState->getNextState() == "win"){
+					winState->setScore(gameState->getFinalScore());
+					currentState = winState;
+					gameState = new GameState();
 				}
 				currentState->reset();
 			}

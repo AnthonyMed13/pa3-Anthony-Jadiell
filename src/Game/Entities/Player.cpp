@@ -133,6 +133,8 @@ FACING Player::getFacing(){ return facing; }
 void Player::setHealth(int h){ health = h; }
 void Player::setFacing(FACING facing){ this->facing = facing; }
 void Player::setScore(int h){ score = h; }
+int Player::getDotsConsumed(){return dotsConsumed;}
+void Player::setDotsConsumed(int count){dotsConsumed= count;}
 
 void Player::checkCollisions(){
     canMoveUp = true;
@@ -155,6 +157,7 @@ void Player::checkCollisions(){
             if(dynamic_cast<Dot*>(entity) || dynamic_cast<BigDot*>(entity)){
                 entity->remove = true;
                 score += 10;
+                setDotsConsumed(getDotsConsumed()+1);
             }
             if(dynamic_cast<BigDot*>(entity)){
                 score +=20;
