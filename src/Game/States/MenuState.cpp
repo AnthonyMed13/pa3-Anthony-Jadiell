@@ -16,7 +16,7 @@ void MenuState::tick() {
 	startButton->tick();
 	anim->tick();
 	if(startButton->wasPressed()){
-		setNextState("Game");
+		setNextState("Choose");
 		setFinished(true);
 
 	}
