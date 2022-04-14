@@ -2,6 +2,7 @@
 
 
 MapBuilder::MapBuilder(){
+	xR = ofRandom(1,10);
 	entityManager = new EntityManager();
 	pixelMultiplier = 16;
 	boundBoundBlock = ofColor(0,0,0);
@@ -63,13 +64,30 @@ Map* MapBuilder::createMap(ofImage mapImage){
 				mapInCreation->setPlayer(PacMan);
             }else if(currentPixel == ghostC){
                 GhostSpawner* ghostSpawn = new GhostSpawner(xPos,yPos,pixelMultiplier,pixelMultiplier,entityManager, pacmanSpriteSheet);
+				PowerUpCherry* pt = new PowerUpCherry(xPos,yPos,pixelMultiplier,pixelMultiplier,nullptr,nullptr);
+				mapInCreation->addEntity(pt);
                 mapInCreation->setGhostSpawner(ghostSpawn);
             }else if(currentPixel == dotC){
                 Dot* dot = new Dot(xPos,yPos,pixelMultiplier,pixelMultiplier, pacmanSpriteSheet);
                 mapInCreation->addEntity(dot);
+				if(oneLimit2 == false)
+				{
+					if (xR == 0) {
+						PowerUpRandom* pt3 = new PowerUpRandom(xPos,yPos,pixelMultiplier,pixelMultiplier,nullptr);
+						mapInCreation->addEntity(pt3);
+						oneLimit2 = true;
+					}
+				}
+				xR--;
             }else if(currentPixel == bigDotC){
                 BigDot* bigDot = new BigDot(xPos,yPos,pixelMultiplier,pixelMultiplier, pacmanSpriteSheet);
                 mapInCreation->addEntity(bigDot);
+				if(oneLimit == false)
+				{
+					PowerUpStraw* pt2 = new PowerUpStraw(xPos,yPos,pixelMultiplier,pixelMultiplier,nullptr);
+					mapInCreation->addEntity(pt2);
+					oneLimit = true;
+				}
             }
         }
 

@@ -3,11 +3,15 @@
 #include "Dot.h"
 #include "BigDot.h"
 #include "Ghost.h"
+#include "PowerUpSpeed.h"
+#include "PowerUpCherry.h"
+#include "PowerUpStraw.h"
+#include "PowerUpRandom.h"
 
 Player::Player(int x, int y, int width, int height, EntityManager* em) : Entity(x, y, width, height){
     spawnX = x;
     spawnY = y;
-    sprite.load("images/pacman.png");
+    sprite.load("images/mspacman.png");
     down.cropFrom(sprite, 0, 48, 16, 16);
     up.cropFrom(sprite, 0, 32, 16, 16);
     left.cropFrom(sprite, 0, 16, 16, 16);
@@ -39,12 +43,46 @@ Player::Player(int x, int y, int width, int height, EntityManager* em) : Entity(
     walkLeft = new Animation(1,leftAnimframes);
     walkRight = new Animation(1,rightAnimframes);
 
+    speedPower = new PowerUpSpeed(this);
+    cherryPower = new PowerUpCherry(this->x,this->y,width,height, this,em);
+    strawPower = new PowerUpStraw(this->x,this->y,width,height,this);
+    randomPower = new PowerUpRandom(this->x,this->y,width,height,this);
+
+    current = nullptr;
     this->em = em;
 
     moving = MLEFT;
     
 }
+void Player::setX(int xs){
+    x = xs;
+}
+void Player::setY(int ys){
+    y = ys;
+}
+
+void Player::setW(int ws){
+    width = ws;
+}
+
+void Player::setH(int hs){
+    height = hs;
+}
+
+void Player::setInv(bool pO){
+    Inv = pO;
+}
+
 void Player::tick(){
+
+    if(Inv == true){
+        powerCounter--;
+        if (powerCounter == 0){
+            Inv = false;
+            width = 16;
+            height = 16;
+        }
+    }
 
     checkCollisions();
 
@@ -115,6 +153,13 @@ void Player::keyPressed(int key){
             if (health<3){health++;}
             else{}
             break;
+        case ' ':
+            if (powerUpOn == true){
+            current->activate();
+            powerUpOn = false;
+            }
+            break;
+            
     }
 }
 
@@ -163,6 +208,21 @@ void Player::checkCollisions(){
                 score +=20;
                 em->setKillable(true);
             }
+            if(dynamic_cast<PowerUpCherry*>(entity)){
+                entity->remove = true;
+                powerUpOn = true;
+                current = cherryPower;
+            }
+            if(dynamic_cast<PowerUpStraw*>(entity)){
+                entity->remove = true;
+                powerUpOn = true;
+                current = strawPower;
+            }
+            if(dynamic_cast<PowerUpRandom*>(entity)){
+                entity->remove = true;
+                powerUpOn = true;
+                current = randomPower;
+            }
         }
     }
     for(Entity* entity:em->ghosts){
@@ -170,12 +230,11 @@ void Player::checkCollisions(){
             Ghost* ghost = dynamic_cast<Ghost*>(entity);
             if(ghost->getKillable())
                 ghost->remove = true;
-            else
+            else if(Inv == false)
                 die();
         }
     }
 
-    
 }
 
 void Player::die(){

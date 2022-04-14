@@ -2,6 +2,8 @@
 
 #include "Animation.h"
 #include "EntityManager.h"
+#include "PowerUps.h"
+
 
 enum MOVING {
 	MUP,
@@ -17,6 +19,7 @@ class Player: public Entity{
         int score=0;
         bool canMoveUp, canMoveDown, canMoveRight, canMoveLeft;
         int speed = 4;
+        bool Inv = false;
         bool walking = false;
         MOVING moving;
         FACING facing = DOWN;
@@ -48,6 +51,21 @@ class Player: public Entity{
         void checkCollisions();
         void die();
         void setDotsConsumed(int);
+        void setSpeed(int s) {speed = s;}
+        int getSpeed() {return speed;}
+        void setX(int);
+        void setY(int);
+        void setW(int);
+        void setH(int);
+        void setInv(bool);
+        bool getInv() {return Inv;}
+        bool powerUpOn = false;
+        PowerUps *current;
+        PowerUps *speedPower;
+        PowerUps *cherryPower;
+        PowerUps *strawPower;
+        PowerUps *randomPower;
+        int powerCounter=2*10;
 
 
 };

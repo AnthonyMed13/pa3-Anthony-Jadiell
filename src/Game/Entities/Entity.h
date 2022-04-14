@@ -19,6 +19,8 @@ class Entity {
 		virtual ~Entity();
 		virtual void tick();
 		virtual void render();
+		int getX() {return x;}
+		int getY() {return y;}
 		bool remove = false;
 		void damage(Entity* damageSource);
 		bool collides(Entity* entity);

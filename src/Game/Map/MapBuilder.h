@@ -5,7 +5,9 @@
 #include "Dot.h"
 #include "BigDot.h"
 #include "Ghost.h"
-
+#include "PowerUpCherry.h"
+#include "PowerUpStraw.h"
+#include "PowerUpRandom.h"
 class MapBuilder {
     public:
         MapBuilder();
@@ -14,6 +16,8 @@ class MapBuilder {
 	private:
         vector<ofImage> bound;
         int pixelMultiplier;
+        bool oneLimit = false;
+        bool oneLimit2 = false;
         ofColor boundBoundBlock;
         ofColor pacman;
         ofColor ghostC;
@@ -23,4 +27,5 @@ class MapBuilder {
         ofImage tempBound;
         ofImage getSprite(ofImage, int, int);
         EntityManager* entityManager;
+        int xR;
 };
