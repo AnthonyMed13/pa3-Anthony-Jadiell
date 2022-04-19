@@ -3,7 +3,7 @@
 #include "Animation.h"
 #include "EntityManager.h"
 #include "PowerUps.h"
-
+#include "State.h"
 
 enum MOVING {
 	MUP,
@@ -17,6 +17,7 @@ class Player: public Entity{
         int spawnX, spawnY;
         unsigned int health=3;
         int score=0;
+        bool skin;
         bool canMoveUp, canMoveDown, canMoveRight, canMoveLeft;
         int speed = 4;
         bool Inv = false;
@@ -53,6 +54,7 @@ class Player: public Entity{
         void setDotsConsumed(int);
         void setSpeed(int s) {speed = s;}
         int getSpeed() {return speed;}
+        void setSkin(bool);
         void setX(int);
         void setY(int);
         void setW(int);
@@ -65,6 +67,7 @@ class Player: public Entity{
         PowerUps *cherryPower;
         PowerUps *strawPower;
         PowerUps *randomPower;
+        State *skinState;
         int powerCounter=2*10;
 
 

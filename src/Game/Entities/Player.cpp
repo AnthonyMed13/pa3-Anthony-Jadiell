@@ -7,11 +7,20 @@
 #include "PowerUpCherry.h"
 #include "PowerUpStraw.h"
 #include "PowerUpRandom.h"
+#include "ChoosePlayerState.h"
+#include"globalStatus.h"
 
 Player::Player(int x, int y, int width, int height, EntityManager* em) : Entity(x, y, width, height){
     spawnX = x;
     spawnY = y;
-    sprite.load("images/mspacman.png");
+    switch(status){
+        case false:
+            sprite.load("images/mspacman.png");
+            break;
+        case true:
+            sprite.load("images/pacman.png");
+            break;
+    }
     down.cropFrom(sprite, 0, 48, 16, 16);
     up.cropFrom(sprite, 0, 32, 16, 16);
     left.cropFrom(sprite, 0, 16, 16, 16);
@@ -54,6 +63,10 @@ Player::Player(int x, int y, int width, int height, EntityManager* em) : Entity(
     moving = MLEFT;
     
 }
+void Player::setSkin(bool sk){
+    skin = sk;
+}
+
 void Player::setX(int xs){
     x = xs;
 }

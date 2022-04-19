@@ -37,7 +37,7 @@ void PauseState::keyPressed(int key){
     {
         case 'q':
         setFinished(true);
-		setNextState("over");
+		setNextState("Menu");
 		break;
     }
 }

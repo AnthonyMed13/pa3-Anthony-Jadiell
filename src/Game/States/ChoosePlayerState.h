@@ -3,6 +3,7 @@
 #include "State.h"
 #include "Button.h"
 #include "Animation.h" 
+#include "Player.h"
 
 class ChoosePlayerState : public State {
 private:
@@ -15,7 +16,8 @@ private:
 	bool skin;
 
 public:
-	ChoosePlayerState();
+	ChoosePlayerState(Player*);
+	Player* play;
 	~ChoosePlayerState();
 	void tick();
 	void render();

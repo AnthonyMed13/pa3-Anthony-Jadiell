@@ -9,9 +9,9 @@ void ofApp::setup(){
 	gameState = new GameState();
 	gameOverState = new GameOverState();
 	winState = new WinState();
-	choosePlayerState = new ChoosePlayerState();
+	choosePlayerState = new ChoosePlayerState(nullptr);
 	// Initial State
-	currentState = menuState;
+	currentState = choosePlayerState;
 	pauseState = new PauseState();
 	
 	
@@ -24,6 +24,9 @@ void ofApp::update(){
 			if(currentState->hasFinished()){
 				if(currentState->getNextState() == "Menu"){
 					currentState = menuState;
+				}
+				else if(currentState->getNextState() == "Choose"){
+					currentState = choosePlayerState;
 				}else if(currentState->getNextState() == "Game"){
 					currentState = gameState;
 				}else if(currentState->getNextState() == "over"){
@@ -32,8 +35,6 @@ void ofApp::update(){
 					gameState = new GameState();
 				}else if (currentState->getNextState() == "Pause"){
 					currentState = pauseState;
-				}else if(currentState->getNextState() == "Choose"){
-					currentState = choosePlayerState;
 				}
 				else if(currentState->getNextState() == "win"){
 					winState->setScore(gameState->getFinalScore());
