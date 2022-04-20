@@ -10,8 +10,5 @@ class PowerUpStraw : public PowerUps, public Entity{
         PowerUpStraw(int,int,int,int,Player*);
         EntityManager *em;
         void activate();
-        void test();
         Player *play;
-        int powerCounter=500*10;
-        bool powerOn = false;
 };

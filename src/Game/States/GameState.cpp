@@ -19,7 +19,7 @@ void GameState::tick() {
 		finalScore = map->getPlayer()->getScore();
 		map->getPlayer()->setScore(0);
 	}
-	if(map->getPlayer()->getDotsConsumed()==map->getDotCount()){
+	if(map->getPlayer()->getDotsConsumed()+1==map->getDotCount()){
 		setFinished(true);
 		setNextState("win");
 		map->getPlayer()->setHealth(3);
@@ -29,7 +29,7 @@ void GameState::tick() {
 }
 void GameState::render() {
 	map->render();
-	ofDrawBitmapString(to_string(map->getPlayer()->getDotsConsumed()) + "/" + to_string(map->getDotCount()), ofGetWidth()/2, ofGetHeight()/2-300, 50);
+	ofDrawBitmapString(to_string(map->getPlayer()->getDotsConsumed()) + "/" + to_string(map->getDotCount()-1), ofGetWidth()/2, ofGetHeight()/2-300, 50);
 }
 
 void GameState::keyPressed(int key){

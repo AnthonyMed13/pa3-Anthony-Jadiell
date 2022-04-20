@@ -3,7 +3,6 @@
 #include "PowerUps.h"
 #include "Player.h"
 #include "EntityManager.h"
-#include "Map.h"
 
 class PowerUpRandom : public PowerUps, public Entity{
     public:
@@ -11,5 +10,4 @@ class PowerUpRandom : public PowerUps, public Entity{
         EntityManager *em;
         void activate();
         Player *play;
-        int xR;
 };

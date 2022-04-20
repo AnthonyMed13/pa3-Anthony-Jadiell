@@ -9,7 +9,6 @@ PowerUpCherry::PowerUpCherry(int x, int y, int width, int height, Player* played
     sprite.load("images/Cherry.png");
     this->play = played;
     this->em = em;
-    test = new Map(em);
     xR = ofRandom(1,5);
 }
 

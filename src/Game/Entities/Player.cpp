@@ -8,7 +8,7 @@
 #include "PowerUpStraw.h"
 #include "PowerUpRandom.h"
 #include "ChoosePlayerState.h"
-#include"globalStatus.h"
+#include "globalStatus.h"
 
 Player::Player(int x, int y, int width, int height, EntityManager* em) : Entity(x, y, width, height){
     spawnX = x;
@@ -230,11 +230,13 @@ void Player::checkCollisions(){
                 entity->remove = true;
                 powerUpOn = true;
                 current = strawPower;
+                setDotsConsumed(getDotsConsumed()+1);
             }
             if(dynamic_cast<PowerUpRandom*>(entity)){
                 entity->remove = true;
                 powerUpOn = true;
                 current = randomPower;
+                setDotsConsumed(getDotsConsumed()+1);
             }
         }
     }
