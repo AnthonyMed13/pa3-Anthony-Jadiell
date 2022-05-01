@@ -57,6 +57,9 @@ void EntityManager::render(){
     for(Entity* ghost: ghosts){
         ghost->render();
     }
+    for(Grid* z: grids){
+        z->render();
+    }
 }
 
 void EntityManager::setKillable(bool k){

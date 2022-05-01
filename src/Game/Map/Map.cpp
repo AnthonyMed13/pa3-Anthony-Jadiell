@@ -44,6 +44,9 @@ void Map::setPlayer(Player* p){
 Player* Map::getPlayer(){
 	return player;
 }
+void Map::addGrid(Grid* g){
+	entityManager->grids.push_back(g);
+}
 void Map::setGhostSpawner(GhostSpawner* p){
     gs = p;
 }

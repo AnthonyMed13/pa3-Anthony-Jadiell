@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "GhostSpawner.h"
+#include "Grid.h"
 
 class Map{
     public:
@@ -19,6 +20,8 @@ class Map{
 		  void keyReleased(int key);
       int getDotCount();
       void setDotCount(int);
+      void addGrid(Grid*);
+
 
     private:
       EntityManager *entityManager;
