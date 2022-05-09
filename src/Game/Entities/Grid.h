@@ -12,7 +12,9 @@ class Grid{
         void render();
         bool wasPressed();
         void reset();
-
+        int getX() {return xPos;}
+        int getY() {return yPos;}
+        string getText() {return GridText;}
     private:
         int xPos, yPos, width, height;
         ofImage GridImage;

@@ -46,10 +46,14 @@ Player* Map::getPlayer(){
 }
 void Map::addGrid(Grid* g){
 	entityManager->grids.push_back(g);
+	entityManager->gridText.push_back(g->getText());
 }
 void Map::setGhostSpawner(GhostSpawner* p){
     gs = p;
 }
+//void Map::addPowerUps(PowerUps* p){
+	//entityManager->powerUp.push_back(p);
+//}
 
 Map::~Map(){
 	delete player;

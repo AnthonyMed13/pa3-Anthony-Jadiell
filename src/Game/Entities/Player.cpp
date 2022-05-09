@@ -3,12 +3,14 @@
 #include "Dot.h"
 #include "BigDot.h"
 #include "Ghost.h"
-#include "PowerUpSpeed.h"
 #include "PowerUpCherry.h"
 #include "PowerUpStraw.h"
 #include "PowerUpRandom.h"
 #include "ChoosePlayerState.h"
 #include "globalStatus.h"
+#include "GhostEyes.h"
+#include <algorithm>
+#include "trackingmaze.h"
 
 Player::Player(int x, int y, int width, int height, EntityManager* em) : Entity(x, y, width, height){
     spawnX = x;
@@ -52,12 +54,11 @@ Player::Player(int x, int y, int width, int height, EntityManager* em) : Entity(
     walkLeft = new Animation(1,leftAnimframes);
     walkRight = new Animation(1,rightAnimframes);
 
-    speedPower = new PowerUpSpeed(this);
-    cherryPower = new PowerUpCherry(this->x,this->y,width,height, this,em);
-    strawPower = new PowerUpStraw(this->x,this->y,width,height,this);
-    randomPower = new PowerUpRandom(this->x,this->y,width,height,this);
-
-    current = nullptr;
+    cherryPower = new PowerUpCherry(this->x,this->y,width,height, this,em,1);
+    strawPower = new PowerUpStraw(this->x,this->y,width,height,this,2);
+    randomPower = new PowerUpRandom(this->x,this->y,width,height,this,3);
+    //track = new trackingmaze(nullptr,this);
+    //current;
     this->em = em;
 
     moving = MLEFT;
@@ -87,7 +88,6 @@ void Player::setInv(bool pO){
 }
 
 void Player::tick(){
-
     if(Inv == true){
         powerCounter--;
         if (powerCounter == 0){
@@ -143,6 +143,14 @@ void Player::render(){
         ofDrawCircle(ofGetWidth()/2 + 25*i +200, 50, 10);
     }
     ofDrawBitmapString("Score:"  + to_string(score), ofGetWidth()/2-200, 50);
+
+    if(current.size() > 0)
+    {
+        for(int i = 0; i<current.size();i++)
+        {
+                ofDrawBitmapString(to_string(current[i]->getRanking()), ofGetWidth()/2 + 40*i + 300, 50);
+        }
+    }
 }
 
 void Player::keyPressed(int key){
@@ -167,11 +175,16 @@ void Player::keyPressed(int key){
             else{}
             break;
         case ' ':
-            if (powerUpOn == true){
-            current->activate();
-            powerUpOn = false;
+            if (current.size() > 0){
+                current.front()->activate();
+                current.erase(current.begin());
             }
             break;
+        case 'i':
+            sort(current.begin(),current.end(),[](PowerUps* p, PowerUps* p2) {return p->getRanking() > p2->getRanking();});
+            break;
+        case 'l':
+            track->activate();
             
     }
 }
@@ -224,27 +237,44 @@ void Player::checkCollisions(){
             if(dynamic_cast<PowerUpCherry*>(entity)){
                 entity->remove = true;
                 powerUpOn = true;
-                current = cherryPower;
+                if(once1 == false)
+                {
+                    current.push_back(cherryPower);
+                    once1 = true;
+                }
             }
             if(dynamic_cast<PowerUpStraw*>(entity)){
                 entity->remove = true;
                 powerUpOn = true;
-                current = strawPower;
+                if(once2 == false)
+                {
+                    current.push_back(strawPower);
+                    once2 = true;
+                }
                 setDotsConsumed(getDotsConsumed()+1);
             }
             if(dynamic_cast<PowerUpRandom*>(entity)){
                 entity->remove = true;
                 powerUpOn = true;
-                current = randomPower;
+                if(once3 == false)
+                {
+                    current.push_back(randomPower);
+                    once3 = true;
+                }
                 setDotsConsumed(getDotsConsumed()+1);
             }
         }
     }
+    //spriteG.load("images/Background");
     for(Entity* entity:em->ghosts){
         if(collides(entity)){
             Ghost* ghost = dynamic_cast<Ghost*>(entity);
             if(ghost->getKillable())
+            {
+                GhostEyes* test = new GhostEyes(x,y,width,height,ghost->moves,em);
+                em->entities.push_back(test);
                 ghost->remove = true;
+            }
             else if(Inv == false)
                 die();
         }

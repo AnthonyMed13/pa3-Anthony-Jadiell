@@ -4,6 +4,7 @@
 #include "EntityManager.h"
 #include "PowerUps.h"
 #include "State.h"
+#include "tracking.h"
 
 enum MOVING {
 	MUP,
@@ -62,13 +63,19 @@ class Player: public Entity{
         void setInv(bool);
         bool getInv() {return Inv;}
         bool powerUpOn = false;
-        PowerUps *current;
-        PowerUps *speedPower;
+        //PowerUps *current;
         PowerUps *cherryPower;
         PowerUps *strawPower;
         PowerUps *randomPower;
+        tracking *track;
         State *skinState;
+        vector<PowerUps*> current;
         int powerCounter=2*10;
+        int once1 = false;
+        int once2 = false;
+        int once3 = false;
+        int counterL = 0;
+        //ofImage spriteG;
 
 
 };

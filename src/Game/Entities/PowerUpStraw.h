@@ -7,8 +7,12 @@
 
 class PowerUpStraw : public PowerUps, public Entity{
     public:
-        PowerUpStraw(int,int,int,int,Player*);
+        PowerUpStraw(int,int,int,int,Player*,int);
         EntityManager *em;
         void activate();
         Player *play;
+        void render();
+        int ranking;
+        int getRanking() {return ranking;}
+         bool operator<(PowerUps&p){return this->ranking < p.getRanking();}
 };

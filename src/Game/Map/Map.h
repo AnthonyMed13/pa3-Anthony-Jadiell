@@ -3,12 +3,15 @@
 #include "Player.h"
 #include "GhostSpawner.h"
 #include "Grid.h"
+#include "PowerUps.h"
+#include "trackingmaze.h"
 
 class Map{
     public:
       Map(EntityManager*);
       ~Map();
       void addBoundBlock(BoundBlock*);
+    //  void addPowerUps(PowerUps*);
       void addEntity(Entity*);
       Player* getPlayer();
       void setPlayer(Player*);
@@ -27,5 +30,6 @@ class Map{
       EntityManager *entityManager;
       Player *player;
       GhostSpawner* gs;
+      PowerUps *powerup;
       int dotCount=0;
 };

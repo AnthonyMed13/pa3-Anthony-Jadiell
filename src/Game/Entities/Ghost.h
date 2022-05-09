@@ -10,6 +10,7 @@ class Ghost: public Entity{
         void tick();
         void render();
         bool getKillable();
+        vector<pair<int,int>> moves;
         void setKillable(bool);
     private:
         bool killable = false;

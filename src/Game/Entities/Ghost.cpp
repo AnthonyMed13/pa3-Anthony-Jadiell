@@ -1,5 +1,7 @@
 #include "Ghost.h"
 #include "BoundBlock.h"
+#include <tuple>
+#include <utility>
 
 Ghost::Ghost(int x, int y, int width, int height, ofImage spriteSheet, EntityManager* em, string color): Entity(x, y, width, height){
     this->em = em;
@@ -30,12 +32,16 @@ void Ghost::tick(){
     if(canMove){
         if(facing == UP){
             y-= speed;
+            moves.push_back(make_pair(x,y));
         }else if(facing == DOWN){
             y+=speed;
+            moves.push_back(make_pair(x,y));
         }else if(facing == LEFT){
             x-=speed;
+            moves.push_back(make_pair(x,y));
         }else if(facing == RIGHT){
             x+=speed;
+            moves.push_back(make_pair(x,y));
         }
     }else{
         int randInt;

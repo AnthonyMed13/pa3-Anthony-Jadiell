@@ -60,6 +60,14 @@ void EntityManager::render(){
     for(Grid* z: grids){
         z->render();
     }
+    for(Entity* eye : eyes)
+    {
+        eye->render();
+    }
+    for(Entity* pow : powerUp)
+    {
+        pow->render();
+    }
 }
 
 void EntityManager::setKillable(bool k){

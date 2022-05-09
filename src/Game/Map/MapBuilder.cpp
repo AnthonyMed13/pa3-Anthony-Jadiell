@@ -46,6 +46,12 @@ MapBuilder::MapBuilder(){
 }
 
 Map* MapBuilder::createMap(ofImage mapImage){
+
+	int no_of_cols = 40;
+	int no_of_rows = 40;
+	int initial_value = 0;
+
+
 	int xOffset = (ofGetWidth() - mapImage.getWidth()*pixelMultiplier)/2;
 	int yOffset = (ofGetHeight() - mapImage.getHeight()*pixelMultiplier)/2;
 
@@ -60,18 +66,21 @@ Map* MapBuilder::createMap(ofImage mapImage){
                BoundBlock* BoundBoundBlock = new BoundBlock(xPos,yPos,pixelMultiplier,pixelMultiplier,getSprite(mapImage,i,j));
                mapInCreation->addBoundBlock(BoundBoundBlock);
 			   Grid* test2 = new Grid(xPos,yPos,pixelMultiplier,pixelMultiplier,"0");
+			   initial_value = 0;
 			   mapInCreation->addGrid(test2);
             }else if(currentPixel == pacman){
                 Player* PacMan = new Player(xPos,yPos,pixelMultiplier,pixelMultiplier, entityManager);
 				mapInCreation->setPlayer(PacMan);
 				Grid* test3 = new Grid(xPos,yPos,pixelMultiplier,pixelMultiplier,"1");
+				initial_value = 1;
 			   mapInCreation->addGrid(test3);
             }else if(currentPixel == ghostC){
                 GhostSpawner* ghostSpawn = new GhostSpawner(xPos,yPos,pixelMultiplier,pixelMultiplier,entityManager, pacmanSpriteSheet);
-				PowerUpCherry* pt = new PowerUpCherry(xPos,yPos,pixelMultiplier,pixelMultiplier,nullptr,nullptr);
+				PowerUpCherry* pt = new PowerUpCherry(xPos,yPos,pixelMultiplier,pixelMultiplier,nullptr,nullptr,1);
 				mapInCreation->addEntity(pt);
                 mapInCreation->setGhostSpawner(ghostSpawn);
-				Grid* test4 = new Grid(xPos,yPos,pixelMultiplier,pixelMultiplier,"1");
+				Grid* test4 = new Grid(xPos,yPos,pixelMultiplier,pixelMultiplier,"3");
+				initial_value = 3;
 			   mapInCreation->addGrid(test4);
             }else if(currentPixel == dotC){
                 Dot* dot = new Dot(xPos,yPos,pixelMultiplier,pixelMultiplier, pacmanSpriteSheet);
@@ -79,33 +88,44 @@ Map* MapBuilder::createMap(ofImage mapImage){
 				if(oneLimit2 == false)
 				{
 					if (xR == 0) {
-						PowerUpRandom* pt4 = new PowerUpRandom(xPos,yPos,pixelMultiplier,pixelMultiplier,nullptr);
+						PowerUpRandom* pt4 = new PowerUpRandom(xPos,yPos,pixelMultiplier,pixelMultiplier,nullptr,3);
 						mapInCreation->addEntity(pt4);
 						oneLimit2 = true;
+						Grid* test5 = new Grid(xPos,yPos,pixelMultiplier,pixelMultiplier,"3");
+						initial_value = 3;
+						mapInCreation->addGrid(test5);
+					}
+					else 
+					{
+						Grid* test5 = new Grid(xPos,yPos,pixelMultiplier,pixelMultiplier,"1");
+						initial_value = 1;
+						mapInCreation->addGrid(test5);
 					}
 				}
 				xR--;
-				Grid* test5 = new Grid(xPos,yPos,pixelMultiplier,pixelMultiplier,"1");
-			   mapInCreation->addGrid(test5);
             }else if(currentPixel == bigDotC){
                 BigDot* bigDot = new BigDot(xPos,yPos,pixelMultiplier,pixelMultiplier, pacmanSpriteSheet);
                 mapInCreation->addEntity(bigDot);
 				if(oneLimit == false)
 				{
-					PowerUpStraw* pt2 = new PowerUpStraw(xPos,yPos,pixelMultiplier,pixelMultiplier,nullptr);
+					PowerUpStraw* pt2 = new PowerUpStraw(xPos,yPos,pixelMultiplier,pixelMultiplier,nullptr,2);
 					mapInCreation->addEntity(pt2);
 					oneLimit = true;
+					Grid* test6 = new Grid(xPos,yPos,pixelMultiplier,pixelMultiplier,"3");
+					initial_value = 3;
+			   		mapInCreation->addGrid(test6);
 				}
-				Grid* test6 = new Grid(xPos,yPos,pixelMultiplier,pixelMultiplier,"1");
-			   mapInCreation->addGrid(test6);
+
             }
 			else {
 				Grid* test7 = new Grid(xPos,yPos,pixelMultiplier,pixelMultiplier,"1");
+				initial_value = 1;
 				mapInCreation->addGrid(test7);
 			}
         }
-
+		matrix.resize(no_of_rows, std::vector<int>(no_of_cols, initial_value));
     }
+	//trackingmaze* testing = new trackingmaze(matrix,nullptr);
     return mapInCreation;
 
 }
