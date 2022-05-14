@@ -7,6 +7,7 @@
 
 PowerUpCherry::PowerUpCherry(int x, int y, int width, int height, Player* played, EntityManager* em,int rank): Entity(x, y, width, height){
     sprite.load("images/Cherry.png");
+    name="Cherry";
     this->play = played;
     this->em = em;
     this->ranking = rank;
@@ -25,9 +26,4 @@ void PowerUpCherry::activate(){
             xR--;
         }
     }
-}
-
-void PowerUpCherry::render(){
-    ofSetColor(256,256,256);
-    sprite.draw(x, y, width, height);
 }

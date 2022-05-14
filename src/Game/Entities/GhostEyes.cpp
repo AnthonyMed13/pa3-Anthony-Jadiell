@@ -26,12 +26,6 @@ void GhostEyes::tick()
             em->ghosts.push_back(spawn);
             once = true;
         }
-        //Ghost* test = new Ghost(x,y,width,height,sprite,em,colors);
-       // em->entities.push_back(test);
-         //for(Entity* entity:em->eyes){
-             //   GhostEyes* eyes = dynamic_cast<GhostEyes*>(entity);
-             //   eyes->remove = true;
-           // }
         }
 }
 

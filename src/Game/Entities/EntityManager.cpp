@@ -57,16 +57,9 @@ void EntityManager::render(){
     for(Entity* ghost: ghosts){
         ghost->render();
     }
-    for(Grid* z: grids){
-        z->render();
-    }
     for(Entity* eye : eyes)
     {
         eye->render();
-    }
-    for(Entity* pow : powerUp)
-    {
-        pow->render();
     }
 }
 

@@ -12,7 +12,6 @@ class GhostEyes: public Entity{
         string colors = "red";
         int counter = 1;
         vector<pair<int,int>> move;
-       // void render();
        Ghost* spawn;
        size_t size = 1;
        ofImage sprite2;
@@ -20,7 +19,6 @@ class GhostEyes: public Entity{
        
     private:
         bool justSpawned=true;
-        //void checkCollisions();
         int speed=2;
         EntityManager* em;
 };

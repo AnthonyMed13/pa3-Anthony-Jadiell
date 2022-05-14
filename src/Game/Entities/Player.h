@@ -4,7 +4,6 @@
 #include "EntityManager.h"
 #include "PowerUps.h"
 #include "State.h"
-#include "tracking.h"
 
 enum MOVING {
 	MUP,
@@ -63,19 +62,29 @@ class Player: public Entity{
         void setInv(bool);
         bool getInv() {return Inv;}
         bool powerUpOn = false;
+        bool found=false;
+        bool found2=false;
+        bool found3=false;
         //PowerUps *current;
         PowerUps *cherryPower;
         PowerUps *strawPower;
         PowerUps *randomPower;
-        tracking *track;
+        PowerUps *ultimatePower;
         State *skinState;
         vector<PowerUps*> current;
         int powerCounter=2*10;
-        int once1 = false;
-        int once2 = false;
-        int once3 = false;
+        bool once1 = false;
+        bool once2 = false;
+        bool once3 = false;
+        bool once4 = false;
+        bool once5 = false;
         int counterL = 0;
+        int tempR;
         //ofImage spriteG;
+        string findMaze(int,int);
+        string coord;
+        vector<pair<int,int>> coordRecord;
+        vector<int> coordRecord2;
 
 
 };

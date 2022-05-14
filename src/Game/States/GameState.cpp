@@ -29,6 +29,7 @@ void GameState::tick() {
 }
 void GameState::render() {
 	map->render();
+	ofSetColor(256,0,0);
 	ofDrawBitmapString(to_string(map->getPlayer()->getDotsConsumed()) + "/" + to_string(map->getDotCount()-1), ofGetWidth()/2, ofGetHeight()/2-300, 50);
 }
 

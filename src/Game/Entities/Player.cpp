@@ -10,7 +10,7 @@
 #include "globalStatus.h"
 #include "GhostEyes.h"
 #include <algorithm>
-#include "trackingmaze.h"
+#include "PowerUpUltimate.h"
 
 Player::Player(int x, int y, int width, int height, EntityManager* em) : Entity(x, y, width, height){
     spawnX = x;
@@ -57,8 +57,6 @@ Player::Player(int x, int y, int width, int height, EntityManager* em) : Entity(
     cherryPower = new PowerUpCherry(this->x,this->y,width,height, this,em,1);
     strawPower = new PowerUpStraw(this->x,this->y,width,height,this,2);
     randomPower = new PowerUpRandom(this->x,this->y,width,height,this,3);
-    //track = new trackingmaze(nullptr,this);
-    //current;
     this->em = em;
 
     moving = MLEFT;
@@ -125,7 +123,6 @@ void Player::tick(){
 
 void Player::render(){
     ofSetColor(256,256,256);
-    // ofDrawRectangle(getBounds());
 
     if(facing == UP)
         walkUp->getCurrentFrame().draw(x, y, width, height);
@@ -143,6 +140,42 @@ void Player::render(){
         ofDrawCircle(ofGetWidth()/2 + 25*i +200, 50, 10);
     }
     ofDrawBitmapString("Score:"  + to_string(score), ofGetWidth()/2-200, 50);
+    if(found==true){
+        for(Entity* powerUp: em->entities){
+            if(dynamic_cast<PowerUps*> (powerUp) && found3==false){
+                findMaze(x,y);
+                found3=true;
+        found=false;
+    }
+    }
+    }
+    if(found2==true){
+        ofSetColor(255,153,51);
+        for(int i=0; i<coordRecord.size(); i++){
+            if(coordRecord[coordRecord.size()-2].first>=x && coordRecord[coordRecord.size()-2].second>=y){
+                if(coordRecord[i].first>=x && coordRecord[i].second>=y){
+                    ofDrawCircle(coordRecord[i].first+7, coordRecord[i].second+5,3);
+        }
+        }else if(coordRecord[coordRecord.size()-2].first>=x && coordRecord[coordRecord.size()-2].second<=y){
+                if(coordRecord[i].first>=x && coordRecord[i].second<=y){
+                    ofDrawCircle(coordRecord[i].first+7, coordRecord[i].second+5,3);
+        }
+        }else if(coordRecord[coordRecord.size()-2].first<=x && coordRecord[coordRecord.size()-2].second>=y){
+                if(coordRecord[i].first<=x && coordRecord[i].second>=y){
+                    ofDrawCircle(coordRecord[i].first+7, coordRecord[i].second+5,3);
+        }
+        }else if(coordRecord[coordRecord.size()-2].first<=x && coordRecord[coordRecord.size()-2].second<=y){
+                if(coordRecord[i].first<=x && coordRecord[i].second<=y){
+                    ofDrawCircle(coordRecord[i].first+7, coordRecord[i].second+5,3);
+        }
+        }
+        }
+        if(x==coordRecord[coordRecord.size()-1].first && y==coordRecord[coordRecord.size()-1].second){
+            found2=false;
+            found3=false;
+            coordRecord.clear();
+        }
+    }
 
     if(current.size() > 0)
     {
@@ -151,6 +184,64 @@ void Player::render(){
                 ofDrawBitmapString(to_string(current[i]->getRanking()), ofGetWidth()/2 + 40*i + 300, 50);
         }
     }
+    if(score>=1000){
+        int tempx = 504;
+        int tempy = 400;
+        tempR = 10;
+        if(once5 == false){
+            ultimatePower= new PowerUpUltimate(this->x,this->y,width,height, this,4);
+            ofSetColor(120,81,169);
+            ofDrawCircle(tempx+8,tempy-34,tempR);
+        }
+
+    }
+}
+
+string Player::findMaze(int x, int y)
+{
+        if (y < 80 || y > 672) {
+            return "";
+        }
+
+        if (x < 216|| x > 792) {
+            return "";
+        }
+        for(Entity* powerUp: em->entities) { 
+            if(dynamic_cast<PowerUps*> (powerUp)){
+            if(x==powerUp->getX() && y==powerUp->getY()){
+            return to_string(x) + "," + to_string(y) + ",";
+        }
+        }
+        }
+        for(Entity* block: em->boundBlocks) {
+            if(x==block->getX() && y==block->getY()){
+                return ""; 
+        }
+        }
+        for(pair<int,int> record: coordRecord) {
+            if(x==record.first && y==record.second){
+                return ""; 
+        }
+        }
+        coordRecord.push_back(make_pair(x,y));
+        string path = findMaze(x, y-16);
+
+        if (!path.empty()) {
+            return to_string(x) + "," + to_string(y) + "," + path;
+        }
+        path = findMaze(x+16, y);
+        if (!path.empty()) {
+            return to_string(x) + "," + to_string(y) + "," + path;
+        }  
+        path = findMaze(x, y+16);
+        if (!path.empty()) {
+            return to_string(x) + "," + to_string(y) + "," + path;
+        }  
+        path = findMaze(x-16, y);
+        if (!path.empty()) {
+            return to_string(x) + "," + to_string(y) + "," + path;
+        } 
+        return "";;
 }
 
 void Player::keyPressed(int key){
@@ -183,8 +274,10 @@ void Player::keyPressed(int key){
         case 'i':
             sort(current.begin(),current.end(),[](PowerUps* p, PowerUps* p2) {return p->getRanking() > p2->getRanking();});
             break;
-        case 'l':
-            track->activate();
+        case '1':
+            found=true;
+            found2= !found2;
+            break;
             
     }
 }
@@ -263,9 +356,19 @@ void Player::checkCollisions(){
                 }
                 setDotsConsumed(getDotsConsumed()+1);
             }
+            if(dynamic_cast<PowerUpUltimate*>(entity) && score>=1000){
+                entity->remove = true;
+                tempR=0;
+                powerUpOn= true;
+                if(once4 == false){
+                    ultimatePower->activate();
+                    once4 = true;
+                    once5 = true;
+                }
+
+            }
         }
     }
-    //spriteG.load("images/Background");
     for(Entity* entity:em->ghosts){
         if(collides(entity)){
             Ghost* ghost = dynamic_cast<Ghost*>(entity);

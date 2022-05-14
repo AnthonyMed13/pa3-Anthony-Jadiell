@@ -8,6 +8,8 @@
 #include "PowerUpCherry.h"
 #include "PowerUpStraw.h"
 #include "PowerUpRandom.h"
+#include "PowerUpUltimate.h"
+
 class MapBuilder {
     public:
         MapBuilder();
@@ -18,6 +20,8 @@ class MapBuilder {
         int pixelMultiplier;
         bool oneLimit = false;
         bool oneLimit2 = false;
+        bool oneLimit3= false;
+        int counter =1;
         ofColor boundBoundBlock;
         ofColor pacman;
         ofColor ghostC;
@@ -27,6 +31,5 @@ class MapBuilder {
         ofImage tempBound;
         ofImage getSprite(ofImage, int, int);
         EntityManager* entityManager;
-        std::vector<std::vector<int>> matrix;
         int xR;
 };
